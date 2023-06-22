@@ -46,7 +46,7 @@ use reqwest::{IntoUrl, Method, Request, Response};
 /// The `RequestBuilder` trait represents `reqwest::RequestBuilder`.
 #[async_trait]
 pub trait RequestBuilder {
-    type Error: std::error::Error;
+    type Error: std::error::Error + Send + Sync + 'static;
 
     fn header<K, V>(self, key: K, value: V) -> Self
     where
@@ -68,6 +68,8 @@ pub trait RequestBuilder {
 
     fn body<T: Into<reqwest::Body>>(self, body: T) -> Self;
 
+    fn json<T: serde::Serialize + ?Sized>(self, json: &T) -> Self;
+
     fn timeout(self, timeout: std::time::Duration) -> Self;
 
     fn query<T: serde::Serialize + ?Sized>(self, query: &T) -> Self;
@@ -83,7 +85,7 @@ pub trait RequestBuilder {
 #[async_trait]
 pub trait Client {
     type RequestBuilder: RequestBuilder;
-    type Error: std::error::Error;
+    type Error: std::error::Error + Send + Sync + 'static;
 
     /// Makes a `GET` request to a URL.
     fn get<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder;

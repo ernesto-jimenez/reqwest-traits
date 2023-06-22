@@ -41,6 +41,10 @@ impl RequestBuilder for reqwest::RequestBuilder {
         Self::body(self, body)
     }
 
+    fn json<T: serde::Serialize + ?Sized>(self, json: &T) -> Self {
+        Self::json(self, json)
+    }
+
     fn timeout(self, timeout: std::time::Duration) -> Self {
         Self::timeout(self, timeout)
     }

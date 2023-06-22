@@ -2,7 +2,7 @@
 name = "reqwest-traits"
 description = "Traits for reqwest to allow injecting a custom http client like reqwest_middleware::ClientWithMiddleware"
 authors = ["Ernesto Jiménez <erjica@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 repository = "https://github.com/ernesto-jimenez/reqwest-traits"
 license = "MIT"
