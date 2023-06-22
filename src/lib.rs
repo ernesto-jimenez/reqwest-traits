@@ -14,6 +14,29 @@
 //! ## Example
 //!
 //! ```rust
+//! use reqwest_traits::Client;
+//!
+//! struct MyClient<C: Client> {
+//!     http: C,
+//! }
+//!
+//! async fn plain_reqwest() {
+//!     let http = reqwest::Client::new();
+//!     let client = MyClient { http };
+//!     let req = client.http.get("https://example.com");
+//!     let response = req.send().await.unwrap();
+//!     assert_eq!(response.status(), 200);
+//! }
+//!
+//! async fn reqwest_middleware() {
+//!     let http = reqwest_middleware::ClientBuilder::new(
+//!         reqwest::Client::new(),
+//!     ).build();
+//!     let client = MyClient { http };
+//!     let req = client.http.get("https://example.com");
+//!     let response = req.send().await.unwrap();
+//!     assert_eq!(response.status(), 200);
+//! }
 //! ```
 
 use async_trait::async_trait;
