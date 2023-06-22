@@ -1,0 +1,21 @@
+[package]
+name = "reqwest-traits"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.68"
+http = "0.2.9"
+reqwest = "0.11.18"
+reqwest-middleware = { version = "0.2.2", optional = true }
+
+[dev-dependencies]
+http-test-server = "2.1.1"
+tokio = { version = "1.28.2", features = ["macros"] }
+
+[features]
+default = ["reqwest", "reqwest-middleware"]
+reqwest = []
+reqwest-middleware = ["reqwest", "dep:reqwest-middleware"]
