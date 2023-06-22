@@ -16,6 +16,7 @@ async-trait = "0.1.68"
 http = "0.2.9"
 reqwest = "0.11.18"
 reqwest-middleware = { version = "0.2.2", optional = true }
+serde = "1.0.164"
 
 [dev-dependencies]
 http-test-server = "2.1.1"

@@ -15,11 +15,50 @@ impl RequestBuilder for reqwest_middleware::RequestBuilder {
         HeaderValue: TryFrom<V>,
         <HeaderValue as TryFrom<V>>::Error: Into<http::Error>,
     {
-        reqwest_middleware::RequestBuilder::header(self, key, value)
+        Self::header(self, key, value)
     }
 
-    async fn send(self) -> Result<reqwest::Response, reqwest_middleware::Error> {
-        reqwest_middleware::RequestBuilder::send(self).await
+    fn headers(self, headers: reqwest::header::HeaderMap) -> Self {
+        Self::headers(self, headers)
+    }
+
+    fn basic_auth<U, P>(self, username: U, password: Option<P>) -> Self
+    where
+        U: std::fmt::Display,
+        P: std::fmt::Display,
+    {
+        Self::basic_auth(self, username, password)
+    }
+
+    fn bearer_auth<T>(self, token: T) -> Self
+    where
+        T: std::fmt::Display,
+    {
+        Self::bearer_auth(self, token)
+    }
+
+    fn body<T: Into<reqwest::Body>>(self, body: T) -> Self {
+        Self::body(self, body)
+    }
+
+    fn timeout(self, timeout: std::time::Duration) -> Self {
+        Self::timeout(self, timeout)
+    }
+
+    fn query<T: serde::Serialize + ?Sized>(self, query: &T) -> Self {
+        Self::query(self, query)
+    }
+
+    fn version(self, version: http::Version) -> Self {
+        Self::version(self, version)
+    }
+
+    fn build(self) -> Result<Request, reqwest::Error> {
+        Self::build(self)
+    }
+
+    async fn send(self) -> Result<reqwest::Response, Self::Error> {
+        Self::send(self).await
     }
 }
 
@@ -29,35 +68,35 @@ impl Client for reqwest_middleware::ClientWithMiddleware {
     type Error = reqwest_middleware::Error;
 
     fn get<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::get(self, url)
+        Self::get(self, url)
     }
 
     fn post<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::post(self, url)
+        Self::post(self, url)
     }
 
     fn put<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::put(self, url)
+        Self::put(self, url)
     }
 
     fn patch<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::patch(self, url)
+        Self::patch(self, url)
     }
 
     fn delete<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::delete(self, url)
+        Self::delete(self, url)
     }
 
     fn head<U: IntoUrl>(&self, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::head(self, url)
+        Self::head(self, url)
     }
 
     fn request<U: IntoUrl>(&self, method: Method, url: U) -> Self::RequestBuilder {
-        reqwest_middleware::ClientWithMiddleware::request(self, method, url)
+        Self::request(self, method, url)
     }
 
     async fn execute(&self, request: Request) -> Result<Response, Self::Error> {
-        reqwest_middleware::ClientWithMiddleware::execute(self, request).await
+        Self::execute(self, request).await
     }
 }
 

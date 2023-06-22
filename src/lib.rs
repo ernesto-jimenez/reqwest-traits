@@ -55,6 +55,27 @@ pub trait RequestBuilder {
         HeaderValue: TryFrom<V>,
         <HeaderValue as TryFrom<V>>::Error: Into<http::Error>;
 
+    fn headers(self, headers: reqwest::header::HeaderMap) -> Self;
+
+    fn basic_auth<U, P>(self, username: U, password: Option<P>) -> Self
+    where
+        U: std::fmt::Display,
+        P: std::fmt::Display;
+
+    fn bearer_auth<T>(self, token: T) -> Self
+    where
+        T: std::fmt::Display;
+
+    fn body<T: Into<reqwest::Body>>(self, body: T) -> Self;
+
+    fn timeout(self, timeout: std::time::Duration) -> Self;
+
+    fn query<T: serde::Serialize + ?Sized>(self, query: &T) -> Self;
+
+    fn version(self, version: http::Version) -> Self;
+
+    fn build(self) -> Result<Request, reqwest::Error>;
+
     async fn send(self) -> Result<reqwest::Response, Self::Error>;
 }
 
