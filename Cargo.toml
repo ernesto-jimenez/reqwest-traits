@@ -1,7 +1,13 @@
 [package]
 name = "reqwest-traits"
+description = "Traits for reqwest to allow injecting a custom http client like reqwest_middleware::ClientWithMiddleware"
+authors = ["Ernesto Jiménez <erjica@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/ernesto-jimenez/reqwest-traits"
+license = "MIT"
+keywords = ["reqwest", "reqwest_middleware", "traits", "http", "middleware"]
+categories = ["web-programming::http-client"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
